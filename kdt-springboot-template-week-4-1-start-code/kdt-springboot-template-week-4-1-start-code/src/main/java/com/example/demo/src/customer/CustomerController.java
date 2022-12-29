@@ -92,13 +92,17 @@ public class CustomerController {
      */
     @ResponseBody
     @PatchMapping("email/{customerId}")
-    public BaseResponse<String> modifyCustomerEmail(@PathVariable("customerId") int customerId, @RequestBody Customer customer){
+    public BaseResponse<List<GetCustomerRes>> modifyCustomerEmail(@PathVariable("customerId") int customerId, @RequestBody Customer customer){
+        if(!isRegexEmail(customer.getEmail())){
+            return new BaseResponse<>(POST_CUSTOMERS_INVALID_EMAIL);
+        }
+
         try {
             PatchCustomerEmailReq patchCustomerEmailReq = new PatchCustomerEmailReq(customerId, customer.getEmail());
             customerService.modifyCustomerEmail(patchCustomerEmailReq);
 
-            String result = "";
-            return new BaseResponse<>(result);
+            List<GetCustomerRes> getCustomersRes = customerService.getCustomersById(customerId);
+            return new BaseResponse<>(getCustomersRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
@@ -111,10 +115,31 @@ public class CustomerController {
      */
     @ResponseBody
     @PatchMapping("password/{customerId}")
-    public BaseResponse<String> modifyCustomerPassword(@PathVariable("customerId") int customerId, @RequestBody Customer customer){
+    public BaseResponse<List<GetCustomerRes>> modifyCustomerPassword(@PathVariable("customerId") int customerId, @RequestBody Customer customer){
+        if(!isRegexPassword(customer.getPassword())){
+            return new BaseResponse<>(POST_CUSTOMERS_INVALID_PASSWORD);
+        }
         try {
             PatchCustomerPasswordReq patchCustomerPasswordReq = new PatchCustomerPasswordReq(customerId, customer.getPassword());
             customerService.modifyCustomerPassword(patchCustomerPasswordReq);
+
+            List<GetCustomerRes> getCustomersRes = customerService.getCustomersById(customerId);
+            return new BaseResponse<>(getCustomersRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 회원정보삭제 API
+     * [DELETE] /app/customers/delete/:customerId
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("delete/{customerId}")
+    public BaseResponse<String> deleteCustomer(@PathVariable("customerId") int customerId){
+        try {
+            customerService.deleteCustomer(customerId);
 
             String result = "";
             return new BaseResponse<>(result);

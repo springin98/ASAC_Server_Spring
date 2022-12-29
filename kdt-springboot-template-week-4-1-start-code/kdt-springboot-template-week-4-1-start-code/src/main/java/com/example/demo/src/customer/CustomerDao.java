@@ -39,6 +39,14 @@ public class CustomerDao {
                 checkEmailParams);
 
     }
+    public int checkPhone(String phone){
+        String checkPhoneQuery = "select exists(select phone from CUSTOMER where phone = ?)";
+        String checkPhoneParams = phone;
+        return this.jdbcTemplate.queryForObject(checkPhoneQuery,
+                int.class,
+                checkPhoneParams);
+
+    }
 
     public List<GetCustomerRes> getCustomers(){
         String getCustomersQuery = "select * from CUSTOMER";
@@ -85,6 +93,21 @@ public class CustomerDao {
                 getCustomersByPhoneParams);
     }
 
+    public List<GetCustomerRes> getCustomersById(int id){
+        String getCustomersByIdQuery = "select * from CUSTOMER where id =?";
+        int getCustomersByIdParams = id;
+        return this.jdbcTemplate.query(getCustomersByIdQuery,
+                (rs, rowNum) -> new GetCustomerRes(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("birth")
+                ),
+                getCustomersByIdParams);
+    }
+
     //회원 이메일 정보 변경
     public int modifyCustomerEmail(PatchCustomerEmailReq patchCustomerEmailReq){
         String modifyCustomerEmailQuery = "update CUSTOMER set email = ? where id = ? ";
@@ -99,6 +122,14 @@ public class CustomerDao {
         Object[] modifyCustomerPasswordParams = new Object[]{patchCustomerPasswordReq.getPassword(), patchCustomerPasswordReq.getId()};
 
         return this.jdbcTemplate.update(modifyCustomerPasswordQuery,modifyCustomerPasswordParams);
+    }
+
+    //회원 정보 삭제
+    public int deleteCustomer(int customerId){
+        String deleteCustomerNameQuery = "update CUSTOMER set status = ? where id = ? ";
+        Object[] deleteCustomerNameParams = new Object[]{1, customerId};
+
+        return this.jdbcTemplate.update(deleteCustomerNameQuery,deleteCustomerNameParams);
     }
 
 }

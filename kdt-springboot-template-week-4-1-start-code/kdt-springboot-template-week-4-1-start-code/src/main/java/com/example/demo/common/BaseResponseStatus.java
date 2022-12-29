@@ -22,6 +22,7 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일을 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,HttpStatus.BAD_REQUEST.value(),"중복된 이메일입니다."),
+    POST_USERS_EXISTS_PHONE(false,HttpStatus.BAD_REQUEST.value(),"중복된 전화번호입니다."),
 
     RESPONSE_ERROR(false, HttpStatus.NOT_FOUND.value(), "값을 불러오는데 실패하였습니다."),
 
@@ -66,9 +67,13 @@ public enum BaseResponseStatus {
     //[PATCH] /customers/change/{customerId}
     MODIFY_FAIL_CUSTOMEREMAIL(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"이메일 변경 실패"),
     MODIFY_FAIL_CUSTOMERPASSWORD(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"비밀번호 변경 실패"),
-    
-    DELETE_FAIL_CUSTOMEREMAIL(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"유저네임 수정 실패");
+    DELETE_FAIL_CUSTOMERNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"회원 삭제 실패"),
 
+
+    MODIFY_FAIL_PRODUCTNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"상품명 변경 실패"),
+    MODIFY_FAIL_PRODUCTIMG(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"상품 이미지 변경 실패"),
+    MODIFY_FAIL_PRODUCTSOLDOUT(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"상품 품절 여부 변경 실패"),
+    DELETE_FAIL_PRODUCTNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"상품 삭제 실패");
 
 
     private final boolean isSuccess;

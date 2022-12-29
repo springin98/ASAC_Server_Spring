@@ -1,9 +1,7 @@
 package com.example.demo.src.product;
 
 import com.example.demo.common.BaseException;
-import com.example.demo.src.product.model.GetProductRes;
-import com.example.demo.src.product.model.PostProductReq;
-import com.example.demo.src.product.model.PostProductRes;
+import com.example.demo.src.product.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +58,16 @@ public class ProductService {
         try{
             List<GetProductRes> getProductRes = productDao.getProducts();
             return getProductRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetProductRes> getProductsById(int id) throws BaseException{
+        try{
+            List<GetProductRes> getProductsRes = productDao.getProductsById(id);
+            return getProductsRes;
         }
         catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
@@ -132,6 +140,54 @@ public class ProductService {
             return getProductsRes;
         }
         catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //상품명 변경
+    public void modifyProductName(PatchProductNameReq patchProductReq) throws BaseException {
+        try{
+            int result = productDao.modifyProductName(patchProductReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_PRODUCTNAME);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //상품 이미지 변경
+    public void modifyProductImg(PatchProductImgReq patchProductReq) throws BaseException {
+        try{
+            int result = productDao.modifyProductImg(patchProductReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_PRODUCTIMG);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //상품 품절 여부 변경
+    public void modifyProductSoldOut(PatchProductSoldOutReq patchProductReq) throws BaseException {
+        try{
+            int result = productDao.modifyProductSoldOut(patchProductReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_PRODUCTSOLDOUT);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //상품 정보 삭제
+    public void deleteProduct(int productId) throws BaseException {
+        try{
+            int result = productDao.deleteProduct(productId);
+            if(result == 0){
+                throw new BaseException(DELETE_FAIL_PRODUCTNAME);
+            }
+        } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

@@ -2,9 +2,9 @@ package com.example.demo.src.product;
 
 import com.example.demo.common.BaseException;
 import com.example.demo.common.BaseResponse;
-import com.example.demo.src.product.model.GetProductRes;
-import com.example.demo.src.product.model.PostProductReq;
-import com.example.demo.src.product.model.PostProductRes;
+import com.example.demo.src.customer.model.Customer;
+import com.example.demo.src.customer.model.PatchCustomerEmailReq;
+import com.example.demo.src.product.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -129,6 +129,83 @@ public class ProductController {
             List<GetProductRes> getProductRes = productService.getProductsNotSoldOut();
             return new BaseResponse<>(getProductRes);
         } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 상품명 변경 API
+     * [PATCH] /app/products/change/name/:productId
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("change/name/{productId}")
+    public BaseResponse<List<GetProductRes>> modifyProductName(@PathVariable("productId") int productId, @RequestBody Product product){
+        try {
+            PatchProductNameReq patchProductNameReq = new PatchProductNameReq(productId, product.getName());
+            productService.modifyProductName(patchProductNameReq);
+
+            List<GetProductRes> getProductsRes = productService.getProductsById(productId);
+            return new BaseResponse<>(getProductsRes);
+
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 상품 이미지 변경 API
+     * [PATCH] /app/products/change/img/:productId
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("change/img/{productId}")
+    public BaseResponse<List<GetProductRes>> modifyProductImg(@PathVariable("productId") int productId, @RequestBody Product product){
+        try {
+            PatchProductImgReq patchProductImgReq = new PatchProductImgReq(productId, product.getImg());
+            productService.modifyProductImg(patchProductImgReq);
+
+            List<GetProductRes> getProductsRes = productService.getProductsById(productId);
+            return new BaseResponse<>(getProductsRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 상품 품절여부 변경 API
+     * [PATCH] /app/products/change/soldOut/:productId
+     * @return BaseResponse<String>
+     * 0:재고 있음 / 1:품절
+     */
+    @ResponseBody
+    @PatchMapping("change/soldOut/{productId}")
+    public BaseResponse<List<GetProductRes>> modifyProductSoldOut(@PathVariable("productId") int productId, @RequestBody Product product){
+        try {
+            PatchProductSoldOutReq patchProductSoldOutReq = new PatchProductSoldOutReq(productId, product.getSoldOut());
+            productService.modifyProductSoldOut(patchProductSoldOutReq);
+
+            List<GetProductRes> getProductsRes = productService.getProductsById(productId);
+            return new BaseResponse<>(getProductsRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 상품 정보 삭제 API
+     * [DELETE] /app/products/delete/:productId
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("delete/{productId}")
+    public BaseResponse<String> deleteProduct(@PathVariable("productId") int productId){
+        try {
+            productService.deleteProduct(productId);
+
+            String result = "";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }

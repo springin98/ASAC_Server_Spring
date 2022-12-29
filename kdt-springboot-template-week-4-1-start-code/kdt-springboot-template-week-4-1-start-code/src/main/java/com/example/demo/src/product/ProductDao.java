@@ -1,9 +1,6 @@
 package com.example.demo.src.product;
 
-import com.example.demo.src.customer.model.GetCustomerRes;
-import com.example.demo.src.customer.model.PostCustomerReq;
-import com.example.demo.src.product.model.GetProductRes;
-import com.example.demo.src.product.model.PostProductReq;
+import com.example.demo.src.product.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -76,6 +73,26 @@ public class ProductDao {
                         rs.getInt("soldOut")
                 )
         );
+    }
+
+    public List<GetProductRes> getProductsById(int id){
+        String getProductsByIdQuery = "select * from PRODUCT where id =?";
+        int getProductsByIdParams = id;
+        return this.jdbcTemplate.query(getProductsByIdQuery,
+                (rs, rowNum) -> new GetProductRes(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("sellerId"),
+                        rs.getString("price"),
+                        rs.getString("brand"),
+                        rs.getString("img"),
+                        rs.getString("detail"),
+                        rs.getString("bigCategory"),
+                        rs.getString("midCategory"),
+                        rs.getString("smallCategory"),
+                        rs.getInt("soldOut")
+                ),
+                getProductsByIdParams);
     }
 
     //이름으로 상품 찾기
@@ -218,6 +235,38 @@ public class ProductDao {
                         rs.getInt("soldOut")
                 ),
                 getProductsByNameParams);
+    }
+
+    //상품명 정보 변경
+    public int modifyProductName(PatchProductNameReq patchProductNameReq){
+        String modifyProductNameQuery = "update PRODUCT set name = ? where id = ? ";
+        Object[] modifyProductNameParams = new Object[]{patchProductNameReq.getName(), patchProductNameReq.getId()};
+
+        return this.jdbcTemplate.update(modifyProductNameQuery,modifyProductNameParams);
+    }
+
+    //상품 이미지 정보 변경
+    public int modifyProductImg(PatchProductImgReq patchProductImgReq){
+        String modifyProductImgQuery = "update PRODUCT set img = ? where id = ? ";
+        Object[] modifyProductImgParams = new Object[]{patchProductImgReq.getImg(), patchProductImgReq.getId()};
+
+        return this.jdbcTemplate.update(modifyProductImgQuery,modifyProductImgParams);
+    }
+
+    //상품 품절 여부 정보 변경
+    public int modifyProductSoldOut(PatchProductSoldOutReq patchProductSoldOutReq){
+        String modifyProductSoldOutQuery = "update PRODUCT set soldOut = ? where id = ? ";
+        Object[] modifyProductSoldOutParams = new Object[]{patchProductSoldOutReq.getSoldOut(), patchProductSoldOutReq.getId()};
+
+        return this.jdbcTemplate.update(modifyProductSoldOutQuery,modifyProductSoldOutParams);
+    }
+
+    //상품 삭제
+    public int deleteProduct(int productId){
+        String deleteProductNameQuery = "update PRODUCT set status = ? where id = ? ";
+        Object[] deleteProductNameParams = new Object[]{1, productId};
+
+        return this.jdbcTemplate.update(deleteProductNameQuery,deleteProductNameParams);
     }
 
 }
