@@ -30,6 +30,29 @@ public enum BaseResponseStatus {
     FAILED_TO_LOGIN(false,HttpStatus.NOT_FOUND.value(),"없는 아이디거나 비밀번호가 틀렸습니다."),
 
 
+    //CUSTOMER
+    POST_CUSTOMERS_EMPTY_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일을 입력해주세요."),
+    POST_CUSTOMERS_EMPTY_PASSWORD(false, HttpStatus.BAD_REQUEST.value(), "비밀번호를 입력해주세요."),
+    POST_CUSTOMERS_EMPTY_NAME(false, HttpStatus.BAD_REQUEST.value(), "고객명을 입력해주세요."),
+    POST_CUSTOMERS_EMPTY_PHONE(false, HttpStatus.BAD_REQUEST.value(), "전화번호를 입력해주세요."),
+    POST_CUSTOMERS_INVALID_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일 형식을 확인해주세요."),
+    POST_CUSTOMERS_INVALID_PASSWORD(false, HttpStatus.BAD_REQUEST.value(), "비밀번호 형식을 확인해주세요."),
+
+    //PRODUCT
+    POST_PRODUCTS_EMPTY_NAME(false, HttpStatus.BAD_REQUEST.value(), "상품명을 입력해주세요."),
+    POST_PRODUCTS_EMPTY_SELLERID(false, HttpStatus.BAD_REQUEST.value(), "상품자 ID를 입력해주세요."),
+    POST_PRODUCTS_EMPTY_PRICE(false, HttpStatus.BAD_REQUEST.value(), "상품 가격을 입력해주세요."),
+    
+    POST_PRODUCTS_EMPTY_BRAND(false, HttpStatus.BAD_REQUEST.value(), "브랜드를 입력해주세요."),
+    POST_PRODUCTS_EMPTY_IMG(false, HttpStatus.BAD_REQUEST.value(), "대표 이미지 URL 를 입력해주세요."),
+    POST_PRODUCTS_EMPTY_DETAIL(false, HttpStatus.BAD_REQUEST.value(), "상세 이미지 URL 를 입력해주세요."),
+    POST_PRODUCTS_EMPTY_BIGCATEGORY(false, HttpStatus.BAD_REQUEST.value(), "상품의 큰 카테고리를 입력해주세요."),
+
+    POST_PRODUCTS_EMPTY_MIDCATEGORY(false, HttpStatus.BAD_REQUEST.value(), "상품의 중간 카테고리를 입력해주세요."),
+    POST_PRODUCTS_EMPTY_SMALLCATEGORY(false, HttpStatus.BAD_REQUEST.value(), "상품의 작은 카테고리를 입력해주세요."),
+
+    POST_PRODUCTS_EXISTS_NAME(false, HttpStatus.BAD_REQUEST.value(), "같은 상품이 이미 있습니다."),
+
     /**
      * 500 :  Database, Server 오류
      */
@@ -38,7 +61,14 @@ public enum BaseResponseStatus {
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"유저네임 수정 실패"),
-    DELETE_FAIL_USERNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"유저 삭제 실패");
+    DELETE_FAIL_USERNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"유저 삭제 실패"),
+
+    //[PATCH] /customers/change/{customerId}
+    MODIFY_FAIL_CUSTOMEREMAIL(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"이메일 변경 실패"),
+    MODIFY_FAIL_CUSTOMERPASSWORD(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"비밀번호 변경 실패"),
+    
+    DELETE_FAIL_CUSTOMEREMAIL(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"유저네임 수정 실패");
+
 
 
     private final boolean isSuccess;
