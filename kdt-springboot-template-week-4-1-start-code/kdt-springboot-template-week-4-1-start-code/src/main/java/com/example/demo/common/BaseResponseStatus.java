@@ -32,6 +32,7 @@ public enum BaseResponseStatus {
 
     // [POST] /memos
     TEST_EMPTY_MEMO(false,HttpStatus.NOT_FOUND.value(),"메모를 입력해 주세요."),
+    TEST_EMPTY_COMMENT(false,HttpStatus.NOT_FOUND.value(),"코멘트를 입력해 주세요."),
 
 
     //CUSTOMER
@@ -64,7 +65,7 @@ public enum BaseResponseStatus {
     SERVER_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "서버와의 연결에 실패하였습니다."),
 
     //[PATCH]
-    MODIFY_FAIL_TESTNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"메모 수정 실패"),
+    MODIFY_FAIL_MEMO(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"메모 수정 실패"),
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"유저네임 수정 실패"),

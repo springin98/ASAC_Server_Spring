@@ -9,7 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostTestReq {
-    private String memo;
+public class PostCommentDto {
+
+    //메모의 id
+    private Long memoId;
+    //comment의 내용
+    private String comment;
 
 }

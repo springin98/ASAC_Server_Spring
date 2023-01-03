@@ -2,18 +2,17 @@ package com.example.demo.src.test;
 
 import com.example.demo.common.BaseException;
 import com.example.demo.common.BaseResponse;
-import com.example.demo.common.BaseResponseStatus;
-import com.example.demo.src.customer.model.GetCustomerRes;
-import com.example.demo.src.test.model.*;
-import com.example.demo.src.user.UserService;
-import com.example.demo.src.user.model.*;
+import com.example.demo.src.test.model.GetMemoDto;
+import com.example.demo.src.test.model.MemoDto;
+import com.example.demo.src.test.model.PostCommentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static com.example.demo.common.BaseResponseStatus.*;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -40,53 +39,83 @@ public class TestController {
      * [POST] /test/memos
      * @return BaseResponse<String>
      */
+    // Body
     @ResponseBody
-    @PostMapping("memos")
-    public BaseResponse<PostTestRes> createTest(@RequestBody PostTestReq postTestReq) {
-        if(postTestReq.getMemo() == null){
+    @PostMapping("/memos")
+    public BaseResponse<String> createMemo(@RequestBody MemoDto memoDto) {
+        if(memoDto.getMemo() == null){
             return new BaseResponse<>(TEST_EMPTY_MEMO);
         }
         try{
-            PostTestRes postTestRes = testService.createTest(postTestReq);
-            return new BaseResponse<>(postTestRes);
+            testService.createMemo(memoDto);
+
+            String result = "생성 성공!!";
+            return new BaseResponse<>(result);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
+
     /**
-     * 메모 전체 조회
-     * [GET] /test/all
-     * @return BaseResponse<GetUserRes>
+     * 메모 리스트 조회 API
+     * [GET] /test/memos
+     * @return BaseResponse<List<TestDto>>
      */
+    //Query String
     @ResponseBody
-    @GetMapping("/all")
-    public BaseResponse<List<GetTestRes>> getTests() {
-        try {
-            List<GetTestRes> getTestRes = testService.getTest();
-            return new BaseResponse<>(getTestRes);
-        } catch (BaseException exception) {
+    @GetMapping("/memos")
+    public BaseResponse<List<GetMemoDto>> getMemos() {
+        try{
+        List<GetMemoDto> getMemoDtoList = testService.getMemos();
+        return new BaseResponse<>(getMemoDtoList);
+        } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
+
     /**
-     * 메모정보변경 API
-     * [PATCH] /app/memos/:userId
+     * 메모 정보 변경 API
+     * [PATCH] test/memos/{memoId}
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("memos/{testId}")
-    public BaseResponse<List<GetTestRes>> modifyTestName(@PathVariable("testId") int testId, @RequestBody Test test){
+    @PatchMapping("/memos/{memoId}")
+    public BaseResponse<String> modifyMemo(@PathVariable("memoId") Long memoId, @RequestBody MemoDto memoDto){
         try {
-            PatchTestReq patchTestReq = new PatchTestReq(testId,test.getMemo());
-            testService.modifyTestName(patchTestReq);
+            if(memoDto.getMemo() == null || memoDto.getMemo().equals("")) {
+                throw new BaseException(TEST_EMPTY_MEMO);
+            }
+            testService.modifyMemo(memoId, memoDto);
 
-            List<GetTestRes> getTestRes = testService.getTest();
-            return new BaseResponse<>(getTestRes);
+            String result = "수정 성공!!";
+            return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
+    /**
+     * 코멘트 생성 API
+     * [POST] /test/comments
+     * @return BaseResponse<String>
+     */
+    // Body
+    @ResponseBody
+    @PostMapping("/comments")
+    public BaseResponse<String> createComment(@RequestBody PostCommentDto postCommentDto) {
+        //받아온 comment가 null인지 확인
+        if(postCommentDto.getComment() == null){
+            return new BaseResponse<>(TEST_EMPTY_COMMENT);
+        }
+        try{
+            testService.createComment(postCommentDto);
+
+            String result = "생성 성공!!";
+            return new BaseResponse<>(result);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

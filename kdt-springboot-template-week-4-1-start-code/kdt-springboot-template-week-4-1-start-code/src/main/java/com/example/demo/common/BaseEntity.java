@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 public class BaseEntity {
 
     @CreationTimestamp
-    @Column(name = "creatAt", nullable = false, updatable = false)
-    private LocalDateTime creatAt;
+    @Column(name = "createAt", nullable = false, updatable = false)
+    private LocalDateTime createAt;
     @UpdateTimestamp
     @Column(name = "updateAt", nullable = false)
     private LocalDateTime updateAt;
@@ -24,6 +24,6 @@ public class BaseEntity {
     @Column(name = "state", nullable = false, length = 10)
     protected State state = State.ACTIVE;
     public enum State {
-        ACTIVE, INATIVE;
+        ACTIVE, INACTIVE;
     }
 }
