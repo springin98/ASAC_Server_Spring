@@ -58,6 +58,17 @@ public enum BaseResponseStatus {
 
     POST_PRODUCTS_EXISTS_NAME(false, HttpStatus.BAD_REQUEST.value(), "같은 상품이 이미 있습니다."),
 
+
+    //Seller
+    POST_SELLERS_EMPTY_COMPANY(false, HttpStatus.BAD_REQUEST.value(), "회사명을 입력하세요."),
+    POST_SELLERS_EMPTY_CEO(false, HttpStatus.BAD_REQUEST.value(), "대표자명을 입력하세요."),
+    POST_SELLERS_EMPTY_ADDRESS(false, HttpStatus.BAD_REQUEST.value(), "회사 주소지를 입력하세요."),
+    POST_SELLERS_EMPTY_PHONE(false, HttpStatus.BAD_REQUEST.value(), "회사 번호를 입력하세요."),
+    POST_SELLERS_EMPTY_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일을 입력하세요."),
+    POST_SELLERS_EMPTY_NUMBER(false, HttpStatus.BAD_REQUEST.value(), "사업번호를 입력하세요."),
+    POST_CUSTOMERS_EMPTY_ALL(false, HttpStatus.BAD_REQUEST.value(), "변경할 정보가 입력되지 않았습니다."),
+
+
     /**
      * 500 :  Database, Server 오류
      */
@@ -66,6 +77,8 @@ public enum BaseResponseStatus {
 
     //[PATCH]
     MODIFY_FAIL_MEMO(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"메모 수정 실패"),
+    MODIFY_FAIL_SELLER(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"판매자 정보 수정 실패"),
+    MODIFY_FAIL_PRODUCT(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"상품 정보 수정 실패"),
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"유저네임 수정 실패"),

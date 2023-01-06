@@ -9,8 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostJPAProductDto {
-    private Long jpaCustomerId;
-
-    private String name;
+public class JPASellerDto {
+    private Long id;
+    private String company;
+    private String ceo;
+    private String address;
+    private String phone;
+    private String email;
+    private String number;
 }

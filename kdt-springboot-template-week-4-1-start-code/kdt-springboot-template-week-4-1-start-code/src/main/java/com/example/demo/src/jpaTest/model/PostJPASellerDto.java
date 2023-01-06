@@ -9,7 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JPACustomerDto {
-    private Long id;
-    private String email;
+public class PostJPASellerDto {
+    private Long jpaSellerId;
+
+    private String name;
+    private String price;
+    private String brand;
+    private String img;
+    private String detail;
 }
